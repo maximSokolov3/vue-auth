@@ -9,8 +9,18 @@ import {useStore} from '@/stores/store.js'
 export const useAuthStore = defineStore('auth', () => {
   let token = ref(localStorage.getItem('token'))
   let error = ref(null);
-  let user = reactive(null);
+  let user = ref({});
   let isAuthenticated = ref(false);
+  let isVerified = ref(false);
+  let verificationLink = ref('');
+
+  function setVerificationLink(value) {
+    verificationLink.value = value
+  }
+
+  function setVerificationStatus(value) {
+    isVerified.value = value
+  }
 
   function createToken(value) {
     token.value = value;
@@ -31,7 +41,7 @@ export const useAuthStore = defineStore('auth', () => {
   }
 
   function setUser(value) {
-    user = value
+    user.value = value
   }
 
   async function login({email, password}) {
@@ -39,7 +49,7 @@ export const useAuthStore = defineStore('auth', () => {
     try {
       useStore().setLoading(true);
       res = await $app.post('/api/login', {email, password});
-      user = res.data.user;
+      user.value = res.data.user;
       console.log(user)
       if (res.status === 200) {
         createToken(res.data.accessToken);
@@ -64,6 +74,7 @@ export const useAuthStore = defineStore('auth', () => {
     try {
       useStore().setLoading(true);
       res = await $app.post('/api/registration', {email, password});
+      user.value = res.data.user;
       console.log(res);
       if (res.status === 200) {
         createToken(res.data.accessToken);
@@ -81,6 +92,9 @@ export const useAuthStore = defineStore('auth', () => {
     createToken, resetToken, token,
     error, clearError,
     setAuthStatus,
-    setUser
+    setUser,
+    user, isAuthenticated,
+    isVerified, setVerificationStatus,
+    verificationLink, setVerificationLink
   }
 })

@@ -15,13 +15,13 @@
     </div>
     <button class="btn primary" type="submit" @click="login" :disabled="store.isLoading">
       {{!store.isLoading ? 'Войти' : ''}}
-      <app-loader v-if="store.isLoading" />
+      <app-loader type="primary small" v-if="store.isLoading" />
     </button>
     <small style="color: red">{{authStore.error}}</small>
 
     <button class="btn primary" type="submit" @click="registration" :disabled="store.isLoading">
       {{!store.isLoading ? 'Регистрация' : ''}}
-      <app-loader v-if="store.isLoading" />
+      <app-loader type="primary small" v-if="store.isLoading" />
     </button>
   </form>
 </template>
@@ -29,7 +29,7 @@
 <script>
 import { useAuthStore } from "@/stores/authStore.js";
 import { useStore } from '@/stores/store.js'
-import {ref, watch} from "vue";
+import { onMounted, ref, watch} from "vue";
 import {useRoute} from "vue-router";
 
 import emailValidator from 'email-validator';
@@ -86,6 +86,9 @@ setup() {
     }
   }
 
+  onMounted(() => {
+
+  })
 
   return {
     email, emailErr,

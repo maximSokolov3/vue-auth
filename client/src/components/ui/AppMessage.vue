@@ -18,7 +18,7 @@ export default {
     let timer = null;
     // плохо закрывается
     onMounted(() => {
-      timer = setTimeout(() => alertStore.closeAlert(), 3000)
+      timer = setTimeout(() => alertStore.closeAlert(), 5000)
     });
 
     onUnmounted(() => {

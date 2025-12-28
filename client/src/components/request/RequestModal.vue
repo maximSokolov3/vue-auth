@@ -2,19 +2,19 @@
   <form class="card" @submit.prevent="createPerson">
     <div class="form-control">
       <label for="fio">ФИО</label>
-      <input v-model="name" type="text" id="fio">
+      <input v-model="name" type="text" id="fio" />
       <small></small>
     </div>
 
     <div class="form-control">
       <label for="phone">Телефон</label>
-      <input v-model="phone" type="text" id="phone">
+      <input v-model="phone" type="text" id="phone" />
       <small></small>
     </div>
 
     <div class="form-control">
       <label for="amount">Суммы</label>
-      <input v-model="sum" type="number" id="amount">
+      <input v-model="sum" type="number" id="amount" />
       <small></small>
     </div>
 
@@ -28,53 +28,53 @@
       </select>
     </div>
 
-    <button class="btn primary">Создать</button>
+    <button class="btn primary">
+      {{ !store.isLoading ? 'Создать' : '' }}
+      <app-loader type="primary small" v-if="store.isLoading" />
+    </button>
   </form>
 </template>
 
 <script>
-import {ref} from 'vue';
-import { useStore } from "@/stores/store.js";
-import {useAlertStore} from "@/stores/alertStore.js";
-import {useRequestsStore} from "@/stores/requests.js";
+import { ref } from 'vue'
+import { useStore } from '@/stores/store.js'
+import { useAlertStore } from '@/stores/alertStore.js'
+import { useRequestsStore } from '@/stores/requests.js'
 import { useAuthStore } from '@/stores/authStore.js'
+import AppLoader from '@/components/ui/AppLoader.vue'
 
 export default {
-setup() {
-  const alertStore = useAlertStore();
-  const store = useStore();
-  const requestsStore = useRequestsStore();
-  const authStore = useAuthStore();
+  components: { AppLoader },
+  setup() {
+    const alertStore = useAlertStore()
+    const store = useStore()
+    const requestsStore = useRequestsStore()
+    const authStore = useAuthStore()
 
-  let name = ref('Соколов М.Е');
-  let phone = ref('+7 910 830 12 52');
-  let sum = ref('1000000');
-  let status = ref('active');
+    let name = ref('Соколов М.Е')
+    let phone = ref('+7 910 830 12 52')
+    let sum = ref('1000000')
+    let status = ref('active')
 
-  if (!localStorage.hasOwnProperty('requests')) {
-    localStorage.setItem('requests', JSON.stringify([]))
-  }
+    async function createPerson() {
+      const req = { userID: authStore.user.id, name, phone, sum, status }
+      await requestsStore.addNewRequest(req)
+      store.isModalOpen = false
 
-  function createPerson() {
-    const req = { userID: 11, name, phone, sum, status };
-    requestsStore.addNewRequest(req);
-    store.isModalOpen = false;
+      // Показ уведомления
+      alertStore.changeAlert(true, 'primary', 'Заявка успешно создана!')
+    }
 
-    // Показ уведомления
-    alertStore.changeAlert(true, 'primary', 'Заявка успешно создана!');
-  }
-
-  return {
-    createPerson,
-    name,
-    phone,
-    sum,
-    status
-  }
-}
+    return {
+      createPerson,
+      name,
+      phone,
+      sum,
+      status,
+      store
+    }
+  },
 }
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

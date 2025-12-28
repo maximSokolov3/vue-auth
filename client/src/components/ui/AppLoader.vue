@@ -1,10 +1,10 @@
 <template>
-  <div class="loader primary small"></div>
+  <div class="loader" :class="type"></div>
 </template>
 
 <script>
   export default {
-
+    props: ['type']
   }
 </script>
 

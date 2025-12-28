@@ -12,7 +12,6 @@ export const useStore = defineStore('store', () => {
 
   function setLoading(value) {
     isLoading.value = value
-    console.log(isLoading.value)
   }
 
   return {
@@ -23,11 +22,5 @@ export const useStore = defineStore('store', () => {
   }
 });
 
-
-// const count = ref(0)
-// const doubleCount = computed(() => count.value * 2)
-// function increment() {
-//   count.value++
-// }
 
 

@@ -6,6 +6,8 @@ import App from './App.vue';
 import router from './router';
 
 import './theme.css';
+import { useRequestsStore } from '@/stores/requests.js'
+import { useStore } from '@/stores/store.js'
 
 const app = createApp(App)
 
@@ -15,15 +17,17 @@ app.mount('#app');
 
 (async () => {
   try {
-    const res = await $app.get('/api/refresh', {withCredentials: true});
-
-    useAuthStore().setAuthStatus(true);
-    useAuthStore().createToken(res.data.accessToken);
-    useAuthStore().setUser(res.data.user);
-  } catch (e) { console.warn(e); router.push('/auth') }
+    useStore().setLoading(true);
+    if (localStorage.getItem('token')) {
+      // Получение данных пользователя после перезагрузки страницы
+      const res = await $app.get('/api/refresh', {withCredentials: true});
+      useAuthStore().setAuthStatus(true);
+      useAuthStore().createToken(res.data.accessToken);
+      useAuthStore().setUser(res.data.user);
+      // useAuthStore().setVerificationStatus(true)
+      console.log(res.data.user);
+    }
+    useStore().setLoading(false);
+  } catch (e) { console.warn(e); useStore().setLoading(false);}
 })()
 
-if (!localStorage.hasOwnProperty('requests')) {
-  localStorage.setItem('requests', JSON.stringify([]))
-}
-///////////////////////!!!!!!!!!!!!!!!!!!!!!!!
