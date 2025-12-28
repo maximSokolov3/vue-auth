@@ -3,7 +3,7 @@
 
 <!--  <template v-else>-->
     <the-navbar />
-    <app-page v-if="!useStore().isLoading">
+    <app-page v-if="!useStore().isLoading && requestsStore.requests.length">
       <button :disabled="!authStore.isAuthenticated" class="btn primary" style="position: absolute; right: 20px; top: 20px"
               @click="store.isModalOpen = !store.isModalOpen">Создать
       </button>
@@ -52,7 +52,6 @@ export default {
 
     authStore.$subscribe(async (mutation) => {
       if (mutation.events.newValue.id) {
-        console.log(mutation.events.newValue.id)
         await requestsStore.getRequestsByID();
       }
     });

@@ -169,14 +169,8 @@ class RequestController {
                 status,
                 sortBy = 'createdAt',
                 sortOrder = 'desc',
-                page = 1,
-                limit = 10
             } = req.query;
 
-            // Валидация параметров
-            const pageNum = parseInt(page);
-            const limitNum = parseInt(limit);
-            const skip = (pageNum - 1) * limitNum;
             const sortOrderValue = sortOrder === 'asc' ? 1 : -1;
 
             // Формирование фильтра
@@ -188,42 +182,18 @@ class RequestController {
             // Построение запроса
             const query = RequestModel.find(filter);
 
-            // Применение сортировки
-            query.sort({ [sortBy]: sortOrderValue });
-
-            // Пагинация
-            query.skip(skip).limit(limitNum);
-
             // Выполнение запроса и подсчет общего количества
             const [requests, totalCount] = await Promise.all([
                 query.exec(),
                 RequestModel.countDocuments(filter)
             ]);
 
-            // Если нет запросов
-            if (requests.length === 0) {
-                return res.status(404).json({
-                    success: false,
-                    message: 'Запросы не найдены',
-                    data: [],
-                    pagination: {
-                        page: pageNum,
-                        limit: limitNum,
-                        total: totalCount,
-                        pages: Math.ceil(totalCount / limitNum)
-                    }
-                });
-            }
-
             res.json({
                 success: true,
                 message: 'Запросы найдены',
                 data: requests,
                 pagination: {
-                    page: pageNum,
-                    limit: limitNum,
                     total: totalCount,
-                    pages: Math.ceil(totalCount / limitNum)
                 }
             });
 
@@ -233,6 +203,59 @@ class RequestController {
                 success: false,
                 message: 'Ошибка сервера при получении запросов',
                 error: process.env.NODE_ENV === 'development' ? error.message : undefined
+            });
+        }
+    }
+    async getRequestById(req, res, next) {
+        try {
+            const { reqID } = req.params;
+
+            // Проверка валидности MongoDB ObjectId
+            if (!mongoose.Types.ObjectId.isValid(reqID)) {
+                return res.status(400).json({
+                    success: false,
+                    message: 'Некорректный формат ID запроса',
+                    errorCode: 'INVALID_ID_FORMAT'
+                });
+            }
+
+            // Находим запрос по ID
+            const request = await RequestModel.findById(reqID);
+
+            // Если запрос не найден
+            if (!request) {
+                return res.status(404).json({
+                    success: false,
+                    message: 'Запрос не найден',
+                    errorCode: 'REQUEST_NOT_FOUND',
+                    requestedId: id
+                });
+            }
+
+            // Успешный ответ
+            res.json({
+                success: true,
+                message: 'Запрос успешно получен',
+                data: request
+            });
+
+        } catch (error) {
+            console.error('Ошибка при получении запроса:', error);
+
+            // Разные типы ошибок
+            if (error.name === 'CastError') {
+                return res.status(400).json({
+                    success: false,
+                    message: 'Некорректный формат ID запроса',
+                    errorCode: 'INVALID_ID'
+                });
+            }
+
+            res.status(500).json({
+                success: false,
+                message: 'Ошибка сервера при получении запроса',
+                error: process.env.NODE_ENV === 'development' ? error.message : undefined,
+                errorCode: 'SERVER_ERROR'
             });
         }
     }

@@ -25,7 +25,6 @@ app.mount('#app');
       useAuthStore().createToken(res.data.accessToken);
       useAuthStore().setUser(res.data.user);
       // useAuthStore().setVerificationStatus(true)
-      console.log(res.data.user);
     }
     useStore().setLoading(false);
   } catch (e) { console.warn(e); useStore().setLoading(false);}

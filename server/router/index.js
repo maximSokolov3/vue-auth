@@ -15,11 +15,17 @@ router.post('/logout', userController.logout);
 router.get('/activate/:link', userController.activate);
 router.get('/refresh', userController.refresh);
 
-// router.get('/users', authMiddleware, userController.getUsers);
-
+// Маршруты для работы с запросами
 router.post('/request', requestController.createRequest);
 router.delete('/request/:id', requestController.deleteRequest);
 router.patch('/request/:id', requestController.updateRequest);
 router.get('/requests/:userID', requestController.getRequestsById);
+router.get('/request/:reqID', requestController.getRequestById);
+
+// Отправка письма по почте
+// router.post('/mail');
 
 module.exports = router
+
+
+// router.get('/users', authMiddleware, userController.getUsers);

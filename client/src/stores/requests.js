@@ -53,7 +53,6 @@ export const useRequestsStore = defineStore('filtering', () => {
   async function getRequestsByID() {
     useStore().setLoading(true);
     try {
-      console.log(useAuthStore().user.id)
       const res = await $app.get('/api/requests/' + useAuthStore().user.id);
       setRequests(res.data.data)
     } catch (e) {console.log(e)}
