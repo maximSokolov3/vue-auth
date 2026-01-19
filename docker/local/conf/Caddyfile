@@ -1,0 +1,9 @@
+localhost:443 {
+    tls internal
+    reverse_proxy vue-auth-frontend:5173
+
+    handle_path /api/* {
+                           uri strip_prefix /api
+                           reverse_proxy vue-auth-backend:5000
+                       }
+}
