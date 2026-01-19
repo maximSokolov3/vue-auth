@@ -10,7 +10,6 @@
 import { useStore } from "@/stores/store.js";
 import TheNavbar from '../components/TheNavbar.vue'
 import TheSidebar from '../components/TheSidebar.vue'
-import AppMessage from '../components/ui/AppMessage.vue'
 
 export default {
   setup() {
@@ -18,7 +17,7 @@ export default {
       useStore
     }
   },
-  components: {TheNavbar, AppMessage, TheSidebar}
+  components: {TheNavbar, TheSidebar}
 }
 </script>
 

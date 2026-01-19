@@ -42,7 +42,6 @@ import * as yup from 'yup';
 import {isMobilePhone} from 'validator'
 
 import { useStore } from '@/stores/store.js'
-import { useAlertStore } from '@/stores/alertStore.js'
 import { useRequestsStore } from '@/stores/requests.js'
 import { useAuthStore } from '@/stores/authStore.js'
 import AppLoader from '@/components/ui/AppLoader.vue'
@@ -53,7 +52,6 @@ export default {
   components: { AppLoader },
   emits: ['close'],
   setup(_, { emit }) {
-    const alertStore = useAlertStore()
     const store = useStore()
     const requestsStore = useRequestsStore()
     const authStore = useAuthStore()

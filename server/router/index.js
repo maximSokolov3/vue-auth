@@ -20,7 +20,7 @@ router.get('/refresh', userController.refresh);
 router.post('/request', requestController.createRequest);
 router.delete('/request/:id', requestController.deleteRequest);
 router.patch('/request/:id', requestController.updateRequest);
-router.get('/requests/:userID', requestController.getRequestsById);
+router.get('/requests/:userID', authMiddleware, requestController.getRequestsById);
 router.get('/request/:reqID', requestController.getRequestById);
 
 // Отправка письма по почте

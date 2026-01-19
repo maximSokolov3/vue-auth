@@ -8,14 +8,14 @@
 
 <script>
 // телепортировать message в конец body
-import {onMounted, onUnmounted, onUpdated} from "vue";
+import {onMounted, onUnmounted} from "vue";
 import {useAlertStore} from "@/stores/alertStore.js";
 
 export default {
   setup() {
     const alertStore = useAlertStore();
     let timer = null;
-    // плохо закрывается
+
     onMounted(() => {
       timer = setTimeout(() => alertStore.closeAlert(), 5000)
     });

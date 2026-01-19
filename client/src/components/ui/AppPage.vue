@@ -12,9 +12,6 @@
 <script>
 export default {
   props: ['title'],
-  setup() {
-
-  }
 }
 </script>
 

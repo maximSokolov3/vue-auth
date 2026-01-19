@@ -3,7 +3,7 @@
   <app-page title="Заявка" v-if="item && !loading">
     <p><strong>Имя владельца:</strong> {{ item.fullName }}</p>
     <p><strong>Телефон:</strong> {{ item.telephone }}</p>
-    <p><strong>Сумма:</strong> {{ item.sum }}</p>
+    <p><strong>Сумма:</strong> {{ formatCurrency(item.sum) }}</p>
     <p><strong>Статус:</strong> <app-status :type="item.status" :key="item.status" /></p>
 
     <div class="form-control">
@@ -26,6 +26,7 @@ import { ref, onMounted, watch } from 'vue'
 import { useStore } from '@/stores/store.js'
 import { useAlertStore } from '@/stores/alertStore.js'
 import { useRequestsStore } from '@/stores/requests.js'
+import { formatCurrency } from '@/utils/currency.js'
 
 import AppPage from '@/components/ui/AppPage.vue'
 import AppStatus from '@/components/ui/AppStatus.vue'
@@ -53,21 +54,10 @@ export default {
       })
     })
 
-    return { item, store, status, alertStore, requestsStore, loading, isChanged }
+    return { item, store, status, alertStore, requestsStore, loading, isChanged, formatCurrency }
   },
   components: { AppPage, AppStatus, AppLoader },
   props: ['id'],
-
-  // beforeRouteEnter(to, from, next) {
-  //   let res;
-  //   (async() => {
-  //     res = await useRequestsStore().getRequestByID(to.params.id)
-  //     console.log(res)
-  //     next(vm => {})
-  //   })()
-  //
-  //
-  // }
 }
 </script>
 

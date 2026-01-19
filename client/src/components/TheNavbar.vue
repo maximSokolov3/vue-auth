@@ -7,6 +7,9 @@
         <router-link to="/requests">Заявки</router-link>
       </li>
       <li>
+        <router-link to="/drag-n-drop">Drag-n-Drop</router-link>
+      </li>
+      <li>
         <router-link to="/help">Помощь</router-link>
       </li>
       <li>
@@ -24,8 +27,6 @@
 <script>
 import { useStore } from "@/stores/store.js";
 import { useAuthStore } from "@/stores/authStore.js";
-import {ref} from "vue";
-// ошибка navbar. Хотел реализовать logout
 
 export default {
 setup() {

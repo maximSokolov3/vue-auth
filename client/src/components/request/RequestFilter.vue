@@ -28,7 +28,7 @@ setup() {
 
   function nameInput() {
     requestsStore.setName(name.value);
-    requestsStore.filterRequests()
+    requestsStore.filterRequests();
   }
 
   function statusInput() {

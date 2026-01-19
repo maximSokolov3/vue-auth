@@ -4,9 +4,7 @@ import { defineStore } from 'pinia';
 export const useStore = defineStore('store', () => {
   let showMessage = ref(false);
 
-  return {
-    showMessage,
-  }
+  return { showMessage }
 });
 
 

@@ -12,7 +12,6 @@
           <request-modal @close="closeModal" />
         </app-modal>
       </teleport>
-      {{ requests ? requests : 'Ничего' }}
     </app-page>
     <teleport to="body">
       <app-message v-if="alertStore.alert.show" :type="alertStore.alert.type" :text="alertStore.alert.text" />
@@ -22,7 +21,7 @@
 </template>
 
 <script>
-import { onMounted, ref, computed } from "vue";
+import { onMounted, ref } from "vue";
 import { useStore } from "@/stores/store.js";
 import { useAlertStore } from "@/stores/alertStore.js";
 import { useAuthStore } from "@/stores/authStore.js";
@@ -45,7 +44,6 @@ export default {
     const requestsStore = useRequestsStore();
     const isModalOpen = ref(false);
 
-    let requests = ref([]);
     let loading = ref(false);
 
     alertStore.closeAlert();
@@ -65,7 +63,6 @@ export default {
         await useRequestsStore().getRequestsByID();
       } catch (e) {console.log(e)}
       loading.value = false;
-      requests.value = requestsStore.getRequests();
     })
 
     return {
@@ -73,7 +70,6 @@ export default {
       isModalOpen, useStore,
       loading,
       closeModal,
-      requests
     }
   },
   components: {

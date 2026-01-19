@@ -1,5 +1,5 @@
 import {defineStore} from "pinia";
-import {ref, computed, reactive, toRaw, isReactive, isRef} from "vue";
+import {ref, computed} from "vue";
 import router from "@/router/index.js";
 import {useAlertStore} from "@/stores/alertStore.js";
 import { $app } from '@/http/axios.js'
@@ -17,10 +17,6 @@ export const useRequestsStore = defineStore('filtering', () => {
   }
   function setStatus(value) {
     statusFilter.value = value
-  }
-
-  function getRequests() {
-    return requests
   }
 
   function setRequests(reqs) {
@@ -56,7 +52,7 @@ export const useRequestsStore = defineStore('filtering', () => {
     try {
       const res = await $app.get('/api/requests/' + useAuthStore().user.id);
       setRequests(res.data.data)
-    } catch (e) {console.log(e)}
+    } catch (e) {console.error(e)}
   }
 
   async function getRequestByID(id) {
@@ -108,8 +104,6 @@ export const useRequestsStore = defineStore('filtering', () => {
     changeReqState,
     deleteUser,
     requests,
-    setRequests,
-    getRequests,
     getRequestsByID,
     getRequestByID
   }

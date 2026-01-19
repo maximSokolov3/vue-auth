@@ -21,6 +21,4 @@ props: ['question'],
 
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

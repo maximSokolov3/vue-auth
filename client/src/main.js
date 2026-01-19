@@ -6,8 +6,6 @@ import App from './App.vue';
 import router from './router';
 
 import './theme.css';
-import { useRequestsStore } from '@/stores/requests.js'
-import { useStore } from '@/stores/store.js'
 
 const app = createApp(App)
 

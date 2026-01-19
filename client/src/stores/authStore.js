@@ -2,21 +2,17 @@ import {defineStore} from "pinia";
 import { ref } from 'vue'
 import { $app } from '@/http/axios.js'
 import router from "@/router/index.js";
-import {useStore} from '@/stores/store.js'
 import {useAlertStore} from "@/stores/alertStore.js";
 
 export const useAuthStore = defineStore('auth', () => {
   const alertStore = useAlertStore();
+
   let token = ref(localStorage.getItem('token'))
   let error = ref(null);
   let user = ref({});
   let isAuthenticated = ref(false);
   let isVerified = ref(true);
   let verificationLink = ref('');
-
-  function setVerificationLink(value) {
-    verificationLink.value = value
-  }
 
   function setVerificationStatus(value) {
     isVerified.value = value
@@ -30,10 +26,6 @@ export const useAuthStore = defineStore('auth', () => {
   function resetToken() {
     token.value = null;
     localStorage.removeItem('token');
-  }
-
-  function clearError() {
-    error.value = null
   }
 
   function setAuthStatus(value) {
@@ -88,12 +80,12 @@ export const useAuthStore = defineStore('auth', () => {
 
   return {
     logout, login, registration,
-    createToken, resetToken, token,
-    error, clearError,
+    createToken, token,
+    error,
     setAuthStatus,
     setUser,
     user, isAuthenticated,
     isVerified, setVerificationStatus,
-    verificationLink, setVerificationLink
+    verificationLink,
   }
 })

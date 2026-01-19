@@ -16,7 +16,7 @@
         <th>{{ i + 1 }}</th>
         <th :title="item.fullName">{{ item.fullName.length > 20 ? item.fullName.slice(0, 25) + '...' : item.fullName }}</th>
         <th :title="item.telephone">{{ item.telephone }}</th>
-        <th :title="item.sum">{{ item.sum }}</th>
+        <th :title="formatCurrency(item.sum)">{{ formatCurrency(item.sum) }}</th>
         <th><app-status :type="item.status" /></th>
         <th>
           <router-link :to="'/request/' + item._id" v-slot="{ navigate }" custom
@@ -29,15 +29,14 @@
 </template>
 
 <script>
+import { formatCurrency } from '@/utils/currency.js'
 import AppStatus from '@/components/ui/AppStatus.vue'
-import { useStore } from '@/stores/store.js'
-import AppLoader from '@/components/ui/AppLoader.vue'
 
 export default {
   setup({ requests }) {
-    return { requests }
+    return { requests, formatCurrency }
   },
-  components: { AppLoader, AppStatus },
+  components: { AppStatus },
   props: ['requests'],
 }
 </script>
