@@ -1,0 +1,40 @@
+name: vue-auth
+
+services:
+  vue-auth-backend:
+    build:
+      dockerfile: ./../docker/local/backend.Dockerfile
+      context: ./../../server
+    env_file:
+      - ./../../server/.env
+    networks:
+      - net
+
+  vue-auth-frontend:
+    build:
+      dockerfile: ./../docker/local/frontend.Dockerfile
+      context: ./../../client
+    depends_on:
+      - vue-auth-backend
+    ports:
+      - "5173:5173"
+    env_file:
+      - ./../../client/.env
+    networks:
+      - net
+
+  caddy:
+    image: caddy:2.11-alpine
+    networks:
+      - net
+    volumes:
+      - ./conf:/etc/caddy
+    ports:
+      - "443:443"
+    depends_on:
+      - vue-auth-backend
+      - vue-auth-frontend
+
+networks:
+  net:
+    driver: bridge
