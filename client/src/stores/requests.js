@@ -12,6 +12,7 @@ export const useRequestsStore = defineStore('filtering', () => {
   let nameFilter = ref('');
   let statusFilter = ref('');
 
+
   function setName(value) {
     nameFilter.value = value
   }
@@ -81,8 +82,6 @@ export const useRequestsStore = defineStore('filtering', () => {
   async function changeReqState(id, status) {
     try {
       await $app.patch('/api/request/' + id, { status });
-      await router.push('/requests');
-      alertStore.changeAlert(true, 'warning', 'Статус заявки обновлен!');
     } catch (e) { console.log(e) }
   }
 
@@ -103,6 +102,6 @@ export const useRequestsStore = defineStore('filtering', () => {
     requests,
     getRequestsByID,
     getRequestByID,
-    filteredRequests
+    filteredRequests,
   }
 })

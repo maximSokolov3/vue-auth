@@ -1,13 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
-import Auth from "@/views/Auth.vue";
-import Home from "@/views/Home.vue";
-import Help from "@/views/Help.vue";
-import request from "@/views/Request.vue";
-import NotFound from '@/views/NotFound.vue'
-import EmailActivated from '@/views/EmailActivated.vue'
-import DragAndDrop from '@/views/DragAndDrop.vue'
-
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [

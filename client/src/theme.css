@@ -241,27 +241,27 @@ h3 {
     border-left-style: solid;
     margin: 1rem 0;
     position: relative;
-    border-bottom-right-radius: 2px;
-    border-top-right-radius: 2px;
+    color: white;
+    border-radius: 10px;
 }
 
 .alert.primary {
     border-color: #42b983;
-    background-color: #f8f8f8;
+    background: linear-gradient(135deg, #059669, #10b981);
 }
 
 .alert.danger {
     border-color: #e53935;
-    background-color: #f8f8f8;
+    background: linear-gradient(135deg, #ef4444, #b91c1c);
 }
 
 .alert.warning {
     border-color: #c25205;
-    background-color: #f8f8f8;
+    background: linear-gradient(135deg, #f59e0b, #d97706);
 }
 
 .alert p {
-    color: #222;
+    color: white;
     line-height: 1.7;
 }
 
@@ -302,10 +302,6 @@ h3 {
     background: rgba(0, 0, 0, .35);
     z-index: 100;
 }
-
-
-
-
 
 .loader {
     font-size: 10px;

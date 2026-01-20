@@ -36,8 +36,8 @@ onUnmounted(() => {
 .alert {
   min-width: 500px;
   position: fixed;
-  bottom: 20px;
-  right: 20px;
+  bottom: 10px;
+  right: 10px;
 }
 
 @media (max-width: 567px) {

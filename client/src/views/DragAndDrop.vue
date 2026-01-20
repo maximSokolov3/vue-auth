@@ -1,5 +1,6 @@
 <template>
-  <div class="kanban-board">
+  <app-loader v-if="loading" />
+  <div class="kanban-board" v-else>
     <!-- 4 колонки для drag-and-drop -->
     <div class="columns-container">
       <!-- Колонка 1: Активные заявки -->
@@ -14,11 +15,12 @@
           item-key="id"
           class="cards-container"
           @end="handleDragEnd"
+          data-list-name="active"
         >
           <DragNDropCard
             v-for="card in activeRequests"
             :key="card.id"
-            :ticket="{ name: card.name, phone: card.phone }"
+            :ticket="{ name: card.fullName, phone: card.telephone }"
           />
         </draggable>
       </div>
@@ -35,11 +37,12 @@
           item-key="id"
           class="cards-container"
           @end="handleDragEnd"
+          data-list-name="done"
         >
           <DragNDropCard
             v-for="card in doneRequests"
             :key="card.id"
-            :ticket="{ name: card.name, phone: card.phone }"
+            :ticket="{ name: card.fullName, phone: card.telephone }"
           />
         </draggable>
       </div>
@@ -56,11 +59,12 @@
           item-key="id"
           class="cards-container"
           @end="handleDragEnd"
+          data-list-name="inProgress"
         >
           <DragNDropCard
             v-for="card in pendingRequests"
             :key="card.id"
-            :ticket="{ name: card.name, phone: card.phone }"
+            :ticket="{ name: card.fullName, phone: card.telephone }"
           />
         </draggable>
       </div>
@@ -77,50 +81,83 @@
           item-key="id"
           class="cards-container"
           @end="handleDragEnd"
+          data-list-name="canceled"
         >
           <DragNDropCard
             v-for="card in cancelledRequests"
             :key="card.id"
-            :ticket="{ name: card.name, phone: card.phone }"
+            :ticket="{ name: card.fullName, phone: card.telephone }"
           />
         </draggable>
       </div>
     </div>
+
   </div>
 </template>
 
 <script setup>
-import { onMounted, ref } from 'vue'
+import { isRef, onMounted, ref, watch, computed, onUnmounted, onBeforeUnmount } from 'vue'
 import { VueDraggableNext as draggable } from 'vue-draggable-next'
 import DragNDropCard from '../components/drag-n-drop/DragNDropCard.vue'
 import { useRequestsStore } from '@/stores/requests.js'
 import {useAuthStore} from '@/stores/authStore.js'
+import AppLoader from '@/components/ui/AppLoader.vue'
 
 const requestsStore = useRequestsStore()
 const authStore = useAuthStore()
-const activeRequests = ref([{ name: 'Maxon', phone: '89108301252' }])
-const doneRequests = ref([])
-const pendingRequests = ref([])
-const cancelledRequests = ref([])
-const loading = ref(false)
 
-const handleDragEnd = (event) => {
-  console.log('Элемент перемещен')
+const requests = computed(() => requestsStore.requests)
+
+const sortRequests = () => {
+  activeRequests.value = requests.value.filter(item => item.status === 'active')
+  doneRequests.value = requests.value.filter(item => item.status === 'done')
+  pendingRequests.value = requests.value.filter(item => item.status === 'inProgress')
+  cancelledRequests.value = requests.value.filter(item => item.status === 'canceled')
 }
+
+let activeRequests = ref([])
+let doneRequests = ref([])
+let pendingRequests = ref([])
+let cancelledRequests = ref([])
+let changesToFetch = ref([])
+let loading = ref(false)
+
+const handleDragEnd = async (event) => {
+  const id = event.item._underlying_vm_._id;
+  const status = event.to.attributes['data-list-name'].value;
+  const idx = changesToFetch.value.findIndex(item => item.id === id)
+  if (idx !== -1) {
+    changesToFetch.value.splice(idx, 1, { id, status })
+  } else {
+    changesToFetch.value.push({ id, status })
+  }
+  await requestsStore.changeReqState(id, status)
+}
+
+// 2. Используем watch для отслеживания изменений авторизации
+watch(
+  () => authStore.user?.id,
+  async (userId) => {
+    loading.value = true;
+    if (userId) {
+      await requestsStore.getRequestsByID()
+      sortRequests()
+    }
+    loading.value = false;
+  },
+  { immediate: true }
+)
 
 onMounted(async () => {
   loading.value = true;
-  authStore.$subscribe(async (mutation) => {
-    if (mutation.events.newValue.id) {
-      await requestsStore.getRequestsByID();
-    }
-  });
-  try {
-    await useRequestsStore().getRequestsByID();
-  } catch (e) {console.log(e)}
+  if (authStore.user?.id) {
+    try {
+      sortRequests()
+    } catch (e) {console.log(e)}
+  }
   loading.value = false;
-
 })
+
 </script>
 
 <style scoped>
