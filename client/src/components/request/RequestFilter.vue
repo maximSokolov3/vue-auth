@@ -1,9 +1,9 @@
 <template>
-  <div class="filter">
-    <div class="form-control">
-      <input @input="nameInput" v-model="name" type="text" placeholder="Начните писать имя">
+  <div class="filter mt-14 sm:mt-0">
+    <div class="form-control width-[90%] sm:width-[30%] mr-0 sm:mr-8 ">
+      <input @input="nameInput" v-model="name" type="text" placeholder="Начните писать имя" class="">
     </div>
-    <div class="form-control">
+    <div class="form-control hidden md:block">
       <select @click="statusInput" v-model="status">
         <option value="">Выберите статус</option>
         <option value="done">Завершен</option>
@@ -12,7 +12,7 @@
         <option value="inProgress">Выполняется</option>
       </select>
     </div>
-    <button class="btn warning" v-if="name !== '' || status !== ''" @click="resetFilter">Очистить</button>
+    <button class="btn warning hidden lg:block ml-4" v-if="name !== '' || status !== ''" @click="resetFilter">Очистить</button>
   </div>
 </template>
 

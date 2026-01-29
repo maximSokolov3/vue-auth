@@ -2,7 +2,7 @@
   <form class="card"
         style="max-width: 800px; margin: 0 auto"
         autocomplete="off" @submit.prevent>
-    <h1>Войти в систему</h1>
+    <h1 class="card-title sm:text-base md:text-lg lg:text-xl mb-2">Войти в систему</h1>
     <div class="form-control" :class="{'error': errors.email, 'valid': isEmailValid}">
       <label for="email">Email</label>
       <input v-model="email" type="email" id="email" v-bind="emailAttrs" @input="isFieldValid('email')">
@@ -13,7 +13,7 @@
       <input v-model="password" type="password" id="password" v-bind="passwordAttrs" @input="isFieldValid('password')">
       <small v-if="errors.password">{{ errors.password }}</small>
     </div>
-    <button class="btn primary" type="submit" @click="login" :disabled="loading">
+    <button class="btn primary mr-4" type="submit" @click="login" :disabled="loading">
       {{!loading ? 'Войти' : ''}}
       <app-loader type="primary small" v-if="loading" />
     </button>

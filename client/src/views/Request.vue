@@ -16,7 +16,7 @@
       </select>
     </div>
 
-    <button class="btn danger" @click="requestsStore.deleteUser(id)">Удалить</button>
+    <button class="btn danger mr-4" @click="requestsStore.deleteUser(id)">Удалить</button>
     <button class="btn" v-if="isChanged" @click="changeState">Обновить</button>
   </app-page>
 </template>

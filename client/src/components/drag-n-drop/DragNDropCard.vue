@@ -92,49 +92,6 @@ const formatPhone = (phone) => {
   margin-bottom: 0;
 }
 
-/* Футер карточки */
-.card-footer {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.action-btn {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 10px 20px;
-  background: #4f46e5;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  font-weight: 600;
-  font-size: 14px;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-
-.action-btn:hover {
-  background: #4338ca;
-  transform: translateY(-1px);
-}
-
-.action-btn:active {
-  transform: translateY(0);
-}
-
-.drag-handle {
-  color: #d1d5db;
-  cursor: grab;
-  font-size: 20px;
-  padding: 4px 8px;
-  user-select: none;
-}
-
-.drag-handle:hover {
-  color: #9ca3af;
-}
-
 /* Цветные левые границы по статусу */
 .ticket-card.status-new {
   border-left: 4px solid #8b5cf6;

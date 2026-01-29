@@ -1,14 +1,12 @@
 <template>
-  <the-navbar />
   <div class="question" @click="isOpen = !isOpen">
-    <div class="question-title">{{ question.title }}</div>
-    <div class="question-body" v-if="isOpen">{{ question.text }}</div>
+    <div class="question-title sm:text-base lg:text-lg">{{ question.title }}</div>
+    <div class="question-body sm:text-base lg:text-lg" v-if="isOpen">{{ question.text }}</div>
   </div>
 </template>
 
 <script setup>
 import { ref } from "vue";
-import TheNavbar from "@/components/TheNavbar.vue";
 
 defineProps({
   question: Object

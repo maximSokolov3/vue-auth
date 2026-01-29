@@ -1,6 +1,6 @@
 <template>
   <app-page>
-    <div class='alert warning' style="display: flex; justify-content: space-between">
+    <div class='flex flex-col md:flex-row justify-between alert warning min-h-30 md:min-h-24'>
       <p class="alert-title" style="line-height: 17px">Подтвердите почту</p>
       <button class="btn warning" type="button" :disabled="disabled" @click="submit">{{!timer ? 'Отправить письмо' : ('0:' + (timer < 10 ? '0' + timer : timer))}}</button>
     </div>
@@ -17,10 +17,10 @@ let disabled = ref(false);
 let timer = ref(false);
 const URL = 'http://localhost:5000' // !!!
 async function submit() {
+  disabled.value = true
   await $app.post('/api/mail', {to: useAuthStore().user.email, link: URL + '/api/activate/' + useAuthStore().user.activationLink})
   const time = (Date.now() / 1000) + 5
   const interval = setInterval(() => {
-    disabled.value = true
     timer.value = Math.ceil(time - Date.now() / 1000);
     if (timer.value === 0) {
       clearInterval(interval);

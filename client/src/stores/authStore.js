@@ -57,6 +57,7 @@ export const useAuthStore = defineStore('auth', () => {
     const res = await $app.post('/api/logout');
     resetToken();
     setAuthStatus(false);
+    await router.push('/auth');
     return res
   }
 

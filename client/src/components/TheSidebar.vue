@@ -1,5 +1,5 @@
 <template>
-  <div class="sidebar">
+  <div class="sidebar w-full sm:w-[300px]">
     <span class="sidebar-close" @click="useStore().showMessage = false">&times;</span>
 
     <div class="sidebar-content">
@@ -12,4 +12,13 @@
 import { useStore } from "@/stores/store.js";
 </script>
 
-<style scoped></style>
+<style scoped>
+.sidebar {
+  background: linear-gradient(135deg,
+  rgb(44, 62, 80) 0%,      /* #2C3E50 */
+  rgb(26, 37, 47) 100%     /* Более темный #1a252f */
+  );
+  color: white;
+
+}
+</style>

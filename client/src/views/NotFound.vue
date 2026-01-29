@@ -1,6 +1,6 @@
 <template>
   <app-page title="❌ 404. Not Found ❌">
-    <div class="not-found">
+    <div class="not-found text-base md:text-xl">
       <p>Страницы не существует</p>
       <router-link to="/auth">Перейти к аутентификации</router-link>
       <router-link to="/requests">Перейти к запросам</router-link>
@@ -16,7 +16,6 @@ import AppPage from '@/components/ui/AppPage.vue'
 .not-found {
   display: flex;
   flex-direction: column;
-  font-size: 20px;
   line-height: 1.6;
 }
 </style>

@@ -1,6 +1,6 @@
 <template>
   <app-loader v-if="loading" />
-  <div class="kanban-board" v-else>
+  <div class="kanban-board mt-16" v-else>
     <!-- 4 колонки для drag-and-drop -->
     <div class="columns-container">
       <!-- Колонка 1: Активные заявки -->
@@ -96,7 +96,7 @@
 </template>
 
 <script setup>
-import { isRef, onMounted, ref, watch, computed, onUnmounted, onBeforeUnmount } from 'vue'
+import { onMounted, ref, watch, computed } from 'vue'
 import { VueDraggableNext as draggable } from 'vue-draggable-next'
 import DragNDropCard from '../components/drag-n-drop/DragNDropCard.vue'
 import { useRequestsStore } from '@/stores/requests.js'
@@ -268,14 +268,6 @@ onMounted(async () => {
 @media (max-width: 768px) {
   .columns-container {
     grid-template-columns: 1fr;
-  }
-
-  .search-container {
-    flex-direction: column;
-  }
-
-  .status-select {
-    flex: 1;
   }
 }
 </style>

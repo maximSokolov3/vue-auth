@@ -3,8 +3,7 @@
   <app-page v-if="!loading">
     <button
       :disabled="!authStore.isAuthenticated"
-      class="btn primary"
-      style="position: absolute; right: 20px; top: 20px"
+      class="btn primary absolute right-5 top-5"
       @click="isModalOpen = true"
     >
       Создать
@@ -29,7 +28,7 @@
 </template>
 
 <script setup>
-import { isRef, onMounted, ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import { useAlertStore } from '@/stores/alertStore.js'
 import { useAuthStore } from '@/stores/authStore.js'
 import { useRequestsStore } from '@/stores/requests.js'

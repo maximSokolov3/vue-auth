@@ -1,7 +1,7 @@
 <template>
   <the-navbar />
   <the-sidebar v-if="useStore().showMessage"  />
-  <div class="container with-nav">
+  <div class="container with-nav mt-18 mx-auto">
     <router-view />
   </div>
 </template>
@@ -12,6 +12,6 @@ import TheNavbar from '../components/TheNavbar.vue'
 import TheSidebar from '../components/TheSidebar.vue'
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 
 </style>
